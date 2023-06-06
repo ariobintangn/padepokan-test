@@ -9,6 +9,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      accountId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Customers",
+          key: "id"
+        }
+      },
       transactionDate: {
         type: Sequelize.DATE
       },

@@ -1,0 +1,21 @@
+[
+    {
+        "accountId": 1,
+        "description": "pembelian",
+        "debitCreditStatus": "D",
+        "amount": 100000
+
+    },
+    {
+        "accountId": 2,
+        "description": "penjualan",
+        "debitCreditStatus": "C",
+        "amount": 150000
+    },
+    {
+        "accountId": 3,
+        "description": "pembelian",
+        "debitCreditStatus": "D",
+        "amount": 200000
+    }
+]
