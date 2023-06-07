@@ -1,43 +1,38 @@
-const { master_user, master_user_role } = require("../models");
+const { Customer, Transaction } = require("../models");
 
 class CustomerController {
-  static async users(req, res, next) {
+  static async customers(req, res, next) {
     try {
-      const users = await master_user.findAll({
+      const customers = await Customer.findAll({
         include: [
             {
-                model: master_user_role,
+                model: Transaction,
                 
             },
         ]
       });
-      console.log(users);
+      console.log(customers);
 
-      res.status(200).json(users);
+      res.status(200).json(customers);
     } catch (error) {
       next(error);
     }
   }
 
-  static async createUser(req, res, next) {
+  static async createCustomer(req, res, next) {
     console.log("<<< MASUK CONTROLLER SERVER");
     try {
-      const { name, jenis_kelamin, tanggal_lahir, alamat, email, roleId } =
+      const { name } =
         req.body;
-      const newUser = await master_user.create(
+      const newCustomer = await Customer.create(
         {
           name,
-          jenis_kelamin,
-          tanggal_lahir,
-          alamat,
-          email,
-          roleId,
         },
         {}
       );
 
       res.status(201).json({
-        newUser,
+        newCustomer,
       });
     } catch (error) {
       console.log(error);
