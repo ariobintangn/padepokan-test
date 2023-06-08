@@ -1,15 +1,15 @@
 const { Customer, Transaction } = require("../models");
+const { Op } = require("sequelize");
 
 class CustomerController {
   static async customers(req, res, next) {
     try {
       const customers = await Customer.findAll({
         include: [
-            {
-                model: Transaction,
-                
-            },
-        ]
+          {
+            model: Transaction,
+          },
+        ],
       });
       console.log(customers);
 
@@ -22,8 +22,7 @@ class CustomerController {
   static async createCustomer(req, res, next) {
     console.log("<<< MASUK CONTROLLER SERVER");
     try {
-      const { name } =
-        req.body;
+      const { name } = req.body;
       const newCustomer = await Customer.create(
         {
           name,
@@ -63,33 +62,35 @@ class CustomerController {
     }
   }
 
-  static async updateUser(req, res, next) {
+  static async customerTime(req, res, next) {
     try {
-      console.log("MASUK CONTROLLER NIH");
-      let id = req.params.id;
-      const { name, jenis_kelamin, tanggal_lahir, alamat, email, roleId } =
-        req.body;
+      let { id, startDate, endDate } = req.body;
+      const adjustedEndDate = new Date(endDate);
+      const adjustedStartDate = new Date(startDate);
+      adjustedEndDate.setHours(23, 59, 59, 999);
+      adjustedStartDate.setHours(0,0,0,0);
 
-      let data = await master_user.findByPk(+id);
-
-      if (!data) {
-        throw "user not found";
-      }
-
-      await master_user.update(
-        { name, jenis_kelamin, tanggal_lahir, alamat, email, roleId },
-        {
-          where: {
-            id,
+      const time = await Customer.findOne({
+        where: { id },
+        include: [
+          {
+            model: Transaction,
+            where: {
+              accountId: id,
+              transactionDate: {
+                [Op.between]: [adjustedStartDate, adjustedEndDate],
+              },
+            },
           },
-        }
-      );
+        ],
+      });
 
-      res
-        .status(200)
-        .json({ message: `user with id ${data.id} has been updated` });
+      res.status(200).json({
+        message: "this are timed transaction",
+        time,
+      });
     } catch (error) {
-      console.log("masuk error");
+      console.log(error);
       next(error);
     }
   }

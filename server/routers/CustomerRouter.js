@@ -3,7 +3,7 @@ const router = require('express').Router()
 
 router.get('/', CustomerController.customers);
 router.post('/', CustomerController.createCustomer);
-router.put('/:id', CustomerController.updateUser);
+router.get('/time', CustomerController.customerTime);
 router.delete('/:id', CustomerController.deleteUser)
 
 
