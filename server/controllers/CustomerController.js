@@ -64,7 +64,7 @@ class CustomerController {
 
   static async customerTime(req, res, next) {
     try {
-      let { id, startDate, endDate } = req.body;
+      const { id, startDate, endDate} = req.body;
       const adjustedEndDate = new Date(endDate);
       const adjustedStartDate = new Date(startDate);
       adjustedEndDate.setHours(23, 59, 59, 999);
@@ -91,6 +91,7 @@ class CustomerController {
       });
     } catch (error) {
       console.log(error);
+      
       next(error);
     }
   }

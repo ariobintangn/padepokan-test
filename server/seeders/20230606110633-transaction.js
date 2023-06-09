@@ -8,7 +8,7 @@ module.exports = {
       "utf-8"
     ).map((el) => {
       delete el.id;
-      el.transactionDate = new Date();
+      el.transactionDate = "28/05/2023";
       el.createdAt = new Date();
       el.updatedAt = new Date();
       return el;
